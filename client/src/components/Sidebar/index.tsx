@@ -61,7 +61,9 @@ const Sidebar = () => {
         </div>
         {/* TEAM */}
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
-          <Image src="/logo.png" width={40} height={40} alt="Team" />
+          <Image 
+          src="https://ut-s3-images.s3.ap-south-1.amazonaws.com/logo.png" 
+          width={40} height={40} alt="Team" />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-white">
               {"Aditya's Team"}
