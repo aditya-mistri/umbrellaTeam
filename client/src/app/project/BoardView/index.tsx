@@ -126,12 +126,15 @@ const Task = ({ task }: TaskProps) => {
   // Apply the drag ref to our element ref
   drag(ref);
 
+  // Check if attachments exist and have length
+  const hasAttachments = task.attachments && task.attachments.length > 0;
+
   return (
     <div
       ref={ref}
       className={`group cursor-grab rounded-lg bg-white p-4 shadow-sm dark:bg-dark-secondary dark:text-white ${isDragging ? "opacity-50" : "opacity-100"}`}
     >
-      {task.attachments?.length > 0 && (
+      {hasAttachments && (
         <div className="mb-3 overflow-hidden rounded-lg">
           <Image
             src={task.attachments[0].fileURL}
