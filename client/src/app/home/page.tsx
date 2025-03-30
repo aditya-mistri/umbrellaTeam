@@ -6,7 +6,7 @@ import {
   Task,
   useGetProjectsQuery,
   useGetTasksQuery,
-} from "../state/api.ts";
+} from "../state/api";
 import React from "react";
 import { useAppSelector } from "../redux";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
