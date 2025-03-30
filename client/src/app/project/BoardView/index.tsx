@@ -2,7 +2,7 @@ import React from "react";
 import { useGetTasksQuery, useUpdateTaskStatusMutation } from "../../state/api";
 import { DndProvider, useDrop, useDrag } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Task as TaskType } from "../../state/api";
+import { Task as TaskType } from "@/state/api";
 import { EllipsisVertical, Plus, MessageSquareMore } from "lucide-react";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -16,12 +16,15 @@ const taskStatus = ["To Do", "Work In Progress", "Under Review", "Completed"];
 
 const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
   const projectId = Number(id);
-
-  // ✅ Hooks should be called unconditionally (before any return)
-  const { data: tasks, isLoading, error } = useGetTasksQuery({ projectId });
-  const [updateTaskStatus] = useUpdateTaskStatusMutation();
-
   if (isNaN(projectId)) return <div>Invalid Project ID</div>;
+
+  const {
+    data: tasks = [],
+    isLoading,
+    error,
+  } = useGetTasksQuery({ projectId });
+
+  const [updateTaskStatus] = useUpdateTaskStatusMutation();
 
   const moveTask = (taskId: number, toStatus: string) => {
     updateTaskStatus({ taskId, status: toStatus });
@@ -38,7 +41,7 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
             <TaskColumn
               key={status}
               status={status}
-              tasks={tasks || []}
+              tasks={tasks}
               moveTask={moveTask}
               setIsModalNewTaskOpen={setIsModalNewTaskOpen}
             />
@@ -49,6 +52,7 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
   );
 };
 
+// Reusable Loading and Error Components
 const LoadingState = () => (
   <div className="flex h-full w-full items-center justify-center p-8">
     <div className="rounded-lg bg-white p-6 shadow-md dark:bg-dark-secondary">
@@ -74,58 +78,103 @@ interface TaskColumnProps {
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
 }
 
-const TaskColumn = ({ status, tasks, moveTask, setIsModalNewTaskOpen }: TaskColumnProps) => {
-  const [{ isOver }, drop] = useDrop(() => ({
+const TaskColumn = ({
+  status,
+  tasks,
+  moveTask,
+  setIsModalNewTaskOpen,
+}: TaskColumnProps) => {
+  const [{ isOver }, drop] = useDrop({
     accept: "task",
     drop: (item: { id: number }) => moveTask(item.id, status),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
-  }));
-
-  const tasksCount = tasks.filter((task) => task.status === status).length;
+  });
 
   return (
-    <div ref={(node) => drop(node)} className={`flex h-full flex-col rounded-lg ${isOver ? "bg-blue-100/20 dark:bg-neutral-950/20" : ""}`}>
+    <div
+      ref={drop}
+      className={`flex h-full flex-col rounded-lg transition-colors ${isOver ? "bg-blue-100/20 dark:bg-neutral-950/20" : ""}`}
+    >
       <div className="mb-3 flex w-full">
-        <div className="w-1.5 bg-gray-500" />
-        <div className="flex w-full items-center justify-between rounded-lg bg-white px-4 py-3 shadow-sm dark:bg-dark-secondary">
-          <h3 className="text-base font-semibold dark:text-white">
-            {status} <span className="ml-2 text-xs font-medium">{tasksCount}</span>
+        <div className="w-1.5 rounded-s-lg bg-blue-600" />
+        <div className="flex w-full items-center justify-between rounded-e-lg bg-white px-4 py-3 shadow-sm dark:bg-dark-secondary">
+          <h3 className="flex items-center text-base font-semibold dark:text-white">
+            {status}
           </h3>
-          <button onClick={() => setIsModalNewTaskOpen(true)} className="p-1.5">
+          <button onClick={() => setIsModalNewTaskOpen(true)} className="p-2">
             <Plus size={18} />
           </button>
         </div>
       </div>
+
       <div className="scrollbar-thin flex-1 space-y-3 overflow-y-auto px-2 pb-4">
-        {tasks.filter((task) => task.status === status).map((task) => (
-          <Task key={task.id} task={task} />
-        ))}
+        {tasks
+          .filter((task) => task.status === status)
+          .map((task) => (
+            <Task key={task.id} task={task} />
+          ))}
+        {tasks.length === 0 && <EmptyTaskMessage />}
       </div>
     </div>
   );
 };
+
+const EmptyTaskMessage = () => (
+  <div className="flex h-24 items-center justify-center rounded-lg border-2 border-dashed border-gray-200 px-3 py-4 text-center dark:border-dark-tertiary">
+    <p className="text-sm text-gray-500 dark:text-gray-400">
+      Drag tasks here or add a new task
+    </p>
+  </div>
+);
 
 interface TaskProps {
   task: TaskType;
 }
 
 const Task = ({ task }: TaskProps) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [{ isDragging }, drag] = useDrag({
     type: "task",
     item: { id: task.id },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
-  }));
+  });
 
   return (
-    <div ref={drag} className={`group cursor-grab rounded-lg bg-white p-4 shadow-sm ${isDragging ? "opacity-50" : "opacity-100"}`}>
-      <h4 className="text-base font-medium">{task.title}</h4>
-      {task.description && <p className="text-sm text-gray-600">{task.description}</p>}
-      <div className="mt-2 border-t pt-2">
-        {task.assignee && <span className="text-xs text-gray-500">{task.assignee.username}</span>}
+    <div
+      ref={drag}
+      className={`group cursor-grab rounded-lg bg-white p-4 shadow-sm dark:bg-dark-secondary dark:text-white ${isDragging ? "opacity-50" : "opacity-100"}`}
+    >
+      {task.attachments?.length > 0 && (
+        <div className="mb-3 overflow-hidden rounded-lg">
+          <Image
+            src={task.attachments[0].fileURL} // ✅ Fixed Image Path
+            alt={task.attachments[0].fileName || "Task Attachment"}
+            width={400}
+            height={200}
+            className="h-40 w-full object-cover"
+          />
+        </div>
+      )}
+      <h4 className="text-base font-medium leading-tight">{task.title}</h4>
+      {task.description && (
+        <p className="text-sm text-gray-600 dark:text-neutral-400">
+          {task.description}
+        </p>
+      )}
+      <div className="mt-2 flex items-center justify-between">
+        {task.assignee?.profilePictureUrl && (
+          <Image
+            src={task.assignee.profilePictureUrl}
+            alt="Assignee"
+            width={30}
+            height={30}
+            className="h-7 w-7 rounded-full"
+          />
+        )}
+        <MessageSquareMore size={16} />
       </div>
     </div>
   );
