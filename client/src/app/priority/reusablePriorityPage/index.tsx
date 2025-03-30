@@ -10,7 +10,7 @@ import {
   Task,
   // useGetAuthUserQuery,
   useGetTasksByUserQuery,
-} from "../../state/api.ts";
+} from "../../state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 
