@@ -28,8 +28,7 @@ const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(false);
   const [showPriority, setShowPriority] = useState(false);
 
-
-  const {data: projects} = useGetProjectsQuery();
+  const { data: projects } = useGetProjectsQuery();
   console.log(projects);
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
@@ -65,8 +64,9 @@ const Sidebar = () => {
           <Image src="/logo.png" width={40} height={40} alt="Team" />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-white">
-              Aditya's Team
+              {"Aditya's Team"}
             </h3>
+
             <div className="mt-1 flex items-start gap-2">
               <Lock className="mt-[0.1rem] h-3 w-3 text-gray-500 dark:text-gray-400" />
               <p className="text-xs text-gray-500">Private</p>
@@ -122,11 +122,27 @@ const Sidebar = () => {
         </button>
         {showPriority && (
           <>
-            <SidebarLink icon={AlertCircle} label="Urgent" href="/priority/urgent" />
-            <SidebarLink icon={ShieldAlert} label="High" href="/priority/high" />
-            <SidebarLink icon={AlertTriangle} label="Medium" href="/priority/medium" />
+            <SidebarLink
+              icon={AlertCircle}
+              label="Urgent"
+              href="/priority/urgent"
+            />
+            <SidebarLink
+              icon={ShieldAlert}
+              label="High"
+              href="/priority/high"
+            />
+            <SidebarLink
+              icon={AlertTriangle}
+              label="Medium"
+              href="/priority/medium"
+            />
             <SidebarLink icon={AlertOctagon} label="Low" href="/priority/low" />
-            <SidebarLink icon={Layers3} label="Backlog" href="/priority/backlog" />
+            <SidebarLink
+              icon={Layers3}
+              label="Backlog"
+              href="/priority/backlog"
+            />
           </>
         )}
       </div>
@@ -136,7 +152,7 @@ const Sidebar = () => {
 
 interface SidebarLinkProps {
   href: string;
-  icon: React.ElementType; 
+  icon: React.ElementType;
   label: string;
 }
 
@@ -147,8 +163,10 @@ const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   return (
     <Link href={href} className="w-full">
       <div
-        className={`relative flex cursor-pointer items-center gap-3 justify-start transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 ${
-          isActive ? "bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-white" : ""
+        className={`relative flex cursor-pointer items-center justify-start gap-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 ${
+          isActive
+            ? "bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-white"
+            : ""
         } px-8 py-3`}
       >
         {isActive && (
