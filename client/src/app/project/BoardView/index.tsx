@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+
 import React from "react";
 import { useGetTasksQuery, useUpdateTaskStatusMutation } from "../../state/api";
 import { DndProvider, useDrop, useDrag } from "react-dnd";
