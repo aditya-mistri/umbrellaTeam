@@ -1,9 +1,9 @@
 "use client";
 
-import Header from "@/components/Header";
-import ProjectCard from "@/components/ProjectCard";
-import TaskCard from "@/components/TaskCard";
-import UserCard from "@/components/UserCard";
+import Header from "../../components/Header/index";
+import ProjectCard from "../../components/ProjectCard/index";
+import TaskCard from "../../components/TaskCard/index";
+import UserCard from "../../components/UserCard/index";
 import { useSearchQuery } from "../../app/state/api";
 import { debounce } from "lodash";
 import React, { useEffect, useState } from "react";

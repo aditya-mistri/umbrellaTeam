@@ -1,5 +1,5 @@
-import Header from "@/components/Header";
-import TaskCard from "@/components/TaskCard";
+import Header from "../../../components/Header/index";
+import TaskCard from "../../../components/TaskCard/index";
 import { Task, useGetTasksQuery, useUpdateTaskStatusMutation } from "../../state/api";
 import React from "react";
 

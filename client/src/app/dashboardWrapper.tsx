@@ -1,7 +1,7 @@
 "use client";
 import React,{ useEffect } from "react";
-import Navbar from "@/components/Navbar"; // Adjust the path to match your project structure.
-import Sidebar from "@/components/Sidebar"; // Adjust the path to match your project structure.
+import Navbar from "../components/Navbar/index"; // Adjust the path to match your project structure.
+import Sidebar from "../components/Sidebar/index"; // Adjust the path to match your project structure.
 import StoreProvider from "./redux";
 import { useAppSelector } from "./redux";
 

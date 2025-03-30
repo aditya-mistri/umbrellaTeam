@@ -1,10 +1,10 @@
 "use client";
 
-import { useAppSelector } from "@/app/redux";
-import Header from "@/components/Header";
-import ModalNewTask from "@/components/ModalNewTask";
-import TaskCard from "@/components/TaskCard";
-import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { useAppSelector } from "../../../app/redux";
+import Header from "../../../components/Header/index";
+import ModalNewTask from "../../../components/ModalNewTask/index";
+import TaskCard from "../../../components/TaskCard/index";
+import { dataGridClassNames, dataGridSxStyles } from "../../../lib/utils";
 import {
   Priority,
   Task,

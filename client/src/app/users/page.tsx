@@ -2,7 +2,7 @@
 import { useGetUsersQuery } from "../state/api";
 import React from "react";
 import { useAppSelector } from "../redux";
-import Header from "@/components/Header";
+import Header from "../../components/Header/index";
 import {
   DataGrid,
   GridColDef,
@@ -11,7 +11,7 @@ import {
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import Image from "next/image";
-import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { dataGridClassNames, dataGridSxStyles } from "../../lib/utils";
 
 const CustomToolbar = () => (
   <GridToolbarContainer className="toolbar flex gap-2">

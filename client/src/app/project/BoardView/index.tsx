@@ -2,7 +2,7 @@ import React from "react";
 import { useGetTasksQuery, useUpdateTaskStatusMutation } from "../../state/api";
 import { DndProvider, useDrop, useDrag } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Task as TaskType } from "@/state/api";
+import { Task as TaskType } from "../../state/api";
 import { EllipsisVertical, Plus, MessageSquareMore } from "lucide-react";
 import { format } from "date-fns";
 import Image from "next/image";

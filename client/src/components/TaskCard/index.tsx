@@ -1,4 +1,4 @@
-import { Task } from "@/state/api";
+import { Task } from "../../app/state/api";
 import { format } from "date-fns";
 import Image from "next/image";
 import React from "react";
