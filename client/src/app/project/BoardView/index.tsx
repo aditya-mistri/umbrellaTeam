@@ -116,15 +116,19 @@ interface TaskProps {
 }
 
 const Task = ({ task }: TaskProps) => {
+  const ref = useRef<HTMLDivElement>(null);
   const [{ isDragging }, drag] = useDrag({
     type: "task",
     item: { id: task.id },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
+  
+  // Apply the drag ref to our element ref
+  drag(ref);
 
   return (
     <div
-      ref={drag}
+      ref={ref}
       className={`group cursor-grab rounded-lg bg-white p-4 shadow-sm dark:bg-dark-secondary dark:text-white ${isDragging ? "opacity-50" : "opacity-100"}`}
     >
       {task.attachments?.length > 0 && (
