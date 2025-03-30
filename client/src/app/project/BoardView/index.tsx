@@ -86,7 +86,7 @@ const TaskColumn = ({ status, tasks, moveTask, setIsModalNewTaskOpen }: TaskColu
   const tasksCount = tasks.filter((task) => task.status === status).length;
 
   return (
-    <div ref={drop} className={`flex h-full flex-col rounded-lg ${isOver ? "bg-blue-100/20 dark:bg-neutral-950/20" : ""}`}>
+    <div ref={(node) => drop(node)} className={`flex h-full flex-col rounded-lg ${isOver ? "bg-blue-100/20 dark:bg-neutral-950/20" : ""}`}>
       <div className="mb-3 flex w-full">
         <div className="w-1.5 bg-gray-500" />
         <div className="flex w-full items-center justify-between rounded-lg bg-white px-4 py-3 shadow-sm dark:bg-dark-secondary">
