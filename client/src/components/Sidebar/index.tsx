@@ -4,21 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { signOut } from "aws-amplify/auth";
 import {
-  Lock,
-  Home,
-  X,
+  AlertCircle,
+  AlertOctagon,
+  AlertTriangle,
   Briefcase,
+  ChevronDown,
+  ChevronUp,
+  Home,
+  Layers3,
+  LockIcon,
+  LucideIcon,
   Search,
   Settings,
+  ShieldAlert,
   User,
   Users,
-  ChevronUp,
-  ChevronDown,
-  AlertCircle,
-  ShieldAlert,
-  AlertTriangle,
-  AlertOctagon,
-  Layers3,
+  X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../app/redux";
