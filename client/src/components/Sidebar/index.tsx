@@ -24,7 +24,6 @@ import { usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../app/redux";
 import { setIsSidebarCollapsed } from "../../app/state/index";
 import { useGetAuthUserQuery, useGetProjectsQuery } from "../../app/state/api";
-import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
