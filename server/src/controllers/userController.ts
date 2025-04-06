@@ -22,7 +22,12 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
         cognitoId: cognitoId,
       },
     });
-
+    
+    if (!user) {
+      res.status(404).json({ message: `User with cognitoId ${cognitoId} not found` });
+      return;
+    }
+    
     res.json(user);
   } catch (error: any) {
     res
@@ -39,6 +44,19 @@ export const postUser = async (req: Request, res: Response) => {
       profilePictureUrl = "i1.jpg",
       teamId = 1,
     } = req.body;
+    
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        cognitoId: cognitoId,
+      },
+    });
+    
+    if (existingUser) {
+      res.json({ message: "User already exists", user: existingUser });
+      return;
+    }
+    
     const newUser = await prisma.user.create({
       data: {
         username,
@@ -49,8 +67,11 @@ export const postUser = async (req: Request, res: Response) => {
     });
     res.json({ message: "User Created Successfully", newUser });
   } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: `Error retrieving users: ${error.message}` });
+    // Handle specific errors
+    if (error.code === 'P2002') {
+      res.status(409).json({ message: `Unique constraint failed: ${error.meta?.target}` });
+    } else {
+      res.status(500).json({ message: `Error creating user: ${error.message}` });
+    }
   }
 };
