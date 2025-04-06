@@ -22,7 +22,7 @@ const formFields = {
       inputProps: { required: true },
     },
     email: {
-      order: 1,
+      order: 2,
       placeholder: "Enter your email address",
       label: "Email",
       inputProps: { type: "email", required: true },
@@ -44,19 +44,19 @@ const formFields = {
 
 const AuthProvider = ({ children }: any) => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 font-sans">
-      <Authenticator formFields={formFields}>
-        {({ user }: any) =>
-          user ? (
-            <div>{children}</div>
-          ) : (
-            <div className="text-center">
-              <h1 className="text-2xl font-medium text-gray-800 mb-6">Please sign in below:</h1>
+    <Authenticator formFields={formFields}>
+      {({ user }: any) =>
+        user ? (
+          <div>{children}</div>
+        ) : (
+          <div className="min-h-screen bg-black flex justify-center items-center">
+            <div className="w-full max-w-md p-6">
+              <Authenticator formFields={formFields} />
             </div>
-          )
-        }
-      </Authenticator>
-    </div>
+          </div>
+        )
+      }
+    </Authenticator>
   );
 };
 
